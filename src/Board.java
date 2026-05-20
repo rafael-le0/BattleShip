@@ -1,114 +1,162 @@
+import java.util.ArrayList;
+
 public class Board {
 
-    char[][] board = new char[7][9];
+    private char[][] displayBoard = new char[7][9];
+    private ArrayList<Ship> ships = new ArrayList<>();
 
-    // Constructor
     public Board() {
-
         initializeBoard();
     }
 
-    // Fill board with water
+    // Fill with water
     public void initializeBoard() {
 
-        for (int i = 0; i < board.length; i++) {
-
-            for (int j = 0; j < board[i].length; j++) {
-
-                board[i][j] = '~';
+        for (int i = 0; i < displayBoard.length; i++) {
+            for (int j = 0; j < displayBoard[i].length; j++) {
+                displayBoard[i][j] = '~';
             }
         }
     }
 
-    // Place ship
-    public boolean placeShip(int row, int col) {
+    // -----------------------------
+    // SHIP PLACEMENT (OBJECT BASED)
+    // -----------------------------
+    public boolean placeShip(Ship ship) {
 
-        // Bounds check
-        if (row < 0 || row >= board.length ||
-            col < 0 || col >= board[0].length) {
+        int r = ship.getRow();
+        int c = ship.getCol();
 
-            return false;
+        // Check all tiles first
+        for (int i = 0; i < ship.getSize(); i++) {
+
+            int row = r + (ship.isHorizontal() ? 0 : i);
+            int col = c + (ship.isHorizontal() ? i : 0);
+
+            if (!isValid(row, col)) {
+                return false;
+            }
+
+            if (displayBoard[row][col] != '~') {
+                return false;
+            }
         }
 
-        // Prevent overlap
-        if (board[row][col] != '~') {
+        // Place ship
+        ships.add(ship);
 
-            return false;
+        for (int i = 0; i < ship.getSize(); i++) {
+
+            int row = r + (ship.isHorizontal() ? 0 : i);
+            int col = c + (ship.isHorizontal() ? i : 0);
+
+            displayBoard[row][col] = '@';
         }
-
-        board[row][col] = '@';
 
         return true;
     }
 
-    // Attack logic
+    // -----------------------------
+    // ATTACK LOGIC (SHIP AWARE)
+    // -----------------------------
     public boolean attack(int row, int col) {
 
-        // Bounds check
-        if (row < 0 || row >= board.length ||
-            col < 0 || col >= board[0].length) {
-
+        if (!isValid(row, col)) {
             System.out.println("Invalid coordinates.");
             return false;
         }
 
-        // Ship hit
-        if (board[row][col] == '@') {
+        // Already attacked
+        if (displayBoard[row][col] == '*' || displayBoard[row][col] == 'O') {
+            System.out.println("Already attacked.");
+            return false;
+        }
 
-            board[row][col] = '*';
+        Ship hitShip = getShipAt(row, col);
+
+        if (hitShip != null) {
+
+            hitShip.hit();
+            displayBoard[row][col] = '*';
 
             System.out.println("Hit!");
 
+            if (hitShip.isSunk()) {
+                System.out.println("Ship sunk!");
+            }
+
             return true;
-        }
 
-        // Water hit
-        else if (board[row][col] == '~') {
+        } else {
 
-            board[row][col] = 'O';
-
+            displayBoard[row][col] = 'O';
             System.out.println("Miss!");
-
             return true;
-        }
-
-        // Already attacked
-        else {
-
-            System.out.println("Position already attacked.");
-
-            return false;
         }
     }
 
-    // Print board
+    // -----------------------------
+    // SHIP RESOLUTION
+    // -----------------------------
+    private Ship getShipAt(int row, int col) {
+
+        for (Ship ship : ships) {
+
+            int r = ship.getRow();
+            int c = ship.getCol();
+
+            for (int i = 0; i < ship.getSize(); i++) {
+
+                int sr = r + (ship.isHorizontal() ? 0 : i);
+                int sc = c + (ship.isHorizontal() ? i : 0);
+
+                if (sr == row && sc == col) {
+                    return ship;
+                }
+            }
+        }
+
+        return null;
+    }
+
+    // -----------------------------
+    // VICTORY CHECK
+    // -----------------------------
+    public boolean allShipsDestroyed() {
+
+        for (Ship ship : ships) {
+            if (!ship.isSunk()) {
+                return false;
+            }
+        }
+
+        return true;
+    }
+
+    // -----------------------------
+    // DISPLAY
+    // -----------------------------
     public void printBoard(boolean hideShips) {
 
         System.out.print("  ");
 
-        for (int j = 0; j < board[0].length; j++) {
-
+        for (int j = 0; j < displayBoard[0].length; j++) {
             System.out.print(j + " ");
         }
 
         System.out.println();
 
-        for (int i = 0; i < board.length; i++) {
+        for (int i = 0; i < displayBoard.length; i++) {
 
             System.out.print(i + " ");
 
-            for (int j = 0; j < board[i].length; j++) {
+            for (int j = 0; j < displayBoard[i].length; j++) {
 
-                char value = board[i][j];
+                char value = displayBoard[i][j];
 
-                // Hide enemy ships
                 if (hideShips && value == '@') {
-
                     System.out.print("~ ");
-                }
-
-                else {
-
+                } else {
                     System.out.print(value + " ");
                 }
             }
@@ -117,26 +165,15 @@ public class Board {
         }
     }
 
-    // Check victory
-    public boolean allShipsDestroyed() {
-
-        for (int i = 0; i < board.length; i++) {
-
-            for (int j = 0; j < board[i].length; j++) {
-
-                if (board[i][j] == '@') {
-
-                    return false;
-                }
-            }
-        }
-
-        return true;
+    // -----------------------------
+    // UTIL
+    // -----------------------------
+    private boolean isValid(int row, int col) {
+        return row >= 0 && row < displayBoard.length &&
+               col >= 0 && col < displayBoard[0].length;
     }
 
-    // Get cell
     public char getCell(int row, int col) {
-
-        return board[row][col];
+        return displayBoard[row][col];
     }
 }
