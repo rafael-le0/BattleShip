@@ -2,96 +2,135 @@ import java.util.Scanner;
 
 public class Game {
 
-    private Board player1Board = new Board();
-    private Board player2Board = new Board();
+    private Player player1;
+    private Player player2;
 
-    private Scanner scanner = new Scanner(System.in);
+    private Scanner input = new Scanner(System.in);
 
+    // -----------------------------
+    // START GAME
+    // -----------------------------
     public void start() {
 
-        System.out.println("=== BATTLESHIP GAME ===");
-
-        setupPhase(player1Board, "Player 1");
-        setupPhase(player2Board, "Player 2");
-
-        playGame();
+        showMainMenu();
     }
 
     // -----------------------------
-    // SETUP PHASE
+    // MAIN MENU
     // -----------------------------
-    private void setupPhase(Board board, String playerName) {
+    private void showMainMenu() {
 
-        System.out.println("\n" + playerName + " place your ships!");
+        while (true) {
 
-        int shipCount = 3;
+            System.out.println();
+            System.out.println("=======================================");
+            System.out.println("        B A T A L H A  N A V A L");
+            System.out.println("=======================================");
+            System.out.println();
+            System.out.println("              |    |");
+            System.out.println("             )_)  )_)");
+            System.out.println("            )___))___)");
+            System.out.println("           )____)_____)");
+            System.out.println("         _____|____|____");
+            System.out.println("---------\\              /---------");
+            System.out.println();
+            System.out.println("Por Rafael Alberto");
+            System.out.println("Tchanek dos Santos");
+            System.out.println("Yolokeni Mbambi\n\n");
+            System.out.println("1. Jogar");
+            System.out.println("2. Sair");
+            System.out.println();
 
-        for (int i = 0; i < shipCount; i++) {
+            int choice;
 
-            boolean placed = false;
+            while (true) {
 
-            while (!placed) {
+                System.out.print("Escolha uma opção: ");
 
-                System.out.println("\nShip " + (i + 1));
+                if (input.hasNextInt()) {
 
-                System.out.print("Size: ");
-                int size = scanner.nextInt();
+                    choice = input.nextInt();
+                    input.nextLine();
 
-                System.out.print("Row: ");
-                int row = scanner.nextInt();
-
-                System.out.print("Col: ");
-                int col = scanner.nextInt();
-
-                System.out.print("Horizontal (true/false): ");
-                boolean horizontal = scanner.nextBoolean();
-
-                Ship ship = new Ship(size, row, col, horizontal);
-
-                if (board.placeShip(ship)) {
-                    placed = true;
-                    System.out.println("Ship placed!");
+                    if (choice == 1 || choice == 2) {
+                        break;
+                    }
                 } else {
-                    System.out.println("Invalid placement. Try again.");
+
+                    input.next();
                 }
+
+                System.out.println("Opção inválida.");
+            }
+
+            // Start game
+            if (choice == 1) {
+
+                setupGame();
+                gameLoop();
+            }
+
+            // Exit
+            else {
+
+                System.out.println("Saindo do jogo...");
+                return;
             }
         }
     }
 
     // -----------------------------
-    // GAME LOOP
+    // GAME SETUP
     // -----------------------------
-    private void playGame() {
+    private void setupGame() {
 
-        boolean player1Turn = true;
+        System.out.println("\n=== PLAYER SETUP ===");
+
+        // Create players
+        System.out.print("Nome do Jogador 1: ");
+        String name1 = input.nextLine();
+
+        System.out.print("Nome do Jogador 2: ");
+        String name2 = input.nextLine();
+
+        player1 = new Player(name1);
+        player2 = new Player(name2);
+
+        // Setup phase
+        player1.placeShips(input);
+        player2.placeShips(input);
+    }
+
+    // -----------------------------
+    // MAIN GAME LOOP
+    // -----------------------------
+    private void gameLoop() {
+
+        Player currentPlayer = player1;
+        Player enemyPlayer = player2;
 
         while (true) {
 
-            Board enemyBoard = player1Turn ? player2Board : player1Board;
-            String currentPlayer = player1Turn ? "Player 1" : "Player 2";
-
             System.out.println("\n========================");
-            System.out.println(currentPlayer + "'s turn");
+            System.out.println("Vez de"+currentPlayer.getName());
             System.out.println("========================");
 
-            enemyBoard.printBoard(true);
+            boolean hit = currentPlayer.attack(enemyPlayer, input);
 
-            System.out.print("Attack row: ");
-            int row = scanner.nextInt();
+            // Victory check
+            if (enemyPlayer.getBoard().allShipsDestroyed()) {
 
-            System.out.print("Attack col: ");
-            int col = scanner.nextInt();
-
-            enemyBoard.attack(row, col);
-
-            // WIN CONDITION (now board-driven)
-            if (enemyBoard.allShipsDestroyed()) {
-
-                System.out.println("\n🏆 " + currentPlayer + " wins!");
+                System.out.println("\n" + currentPlayer.getName() + " GANHOU!");
                 break;
             }
 
-            player1Turn = !player1Turn;
+            // Swap turns ONLY if player missed
+            if (!hit) {
+
+                Player temp = currentPlayer;
+                currentPlayer = enemyPlayer;
+                enemyPlayer = temp;
+            }
         }
     }
 }

@@ -19,9 +19,6 @@ public class Board {
         }
     }
 
-    // -----------------------------
-    // SHIP PLACEMENT (OBJECT BASED)
-    // -----------------------------
     public boolean placeShip(Ship ship) {
 
         int r = ship.getRow();
@@ -56,19 +53,19 @@ public class Board {
         return true;
     }
 
-    // -----------------------------
-    // ATTACK LOGIC (SHIP AWARE)
-    // -----------------------------
     public boolean attack(int row, int col) {
 
         if (!isValid(row, col)) {
-            System.out.println("Invalid coordinates.");
+            System.out.println("Coordenadas inválidas.");
             return false;
         }
 
         // Already attacked
-        if (displayBoard[row][col] == '*' || displayBoard[row][col] == 'O') {
-            System.out.println("Already attacked.");
+        if (displayBoard[row][col] == '*' ||
+            displayBoard[row][col] == 'O' ||
+            displayBoard[row][col] == '=') {
+
+            System.out.println("Célula já atacada.");
             return false;
         }
 
@@ -77,12 +74,17 @@ public class Board {
         if (hitShip != null) {
 
             hitShip.hit();
+
             displayBoard[row][col] = '*';
 
-            System.out.println("Hit!");
+            System.out.println("Acerto!");
 
+            // Ship sunk
             if (hitShip.isSunk()) {
-                System.out.println("Ship sunk!");
+
+                markSunkShip(hitShip);
+
+                System.out.println("Navio naufragado!");
             }
 
             return true;
@@ -90,14 +92,28 @@ public class Board {
         } else {
 
             displayBoard[row][col] = 'O';
-            System.out.println("Miss!");
-            return true;
+
+            System.out.println("Erro!");
+
+            return false;
         }
     }
 
-    // -----------------------------
-    // SHIP RESOLUTION
-    // -----------------------------
+    // Mark entire sunk ship with =
+    private void markSunkShip(Ship ship) {
+
+        int r = ship.getRow();
+        int c = ship.getCol();
+
+        for (int i = 0; i < ship.getSize(); i++) {
+
+            int row = r + (ship.isHorizontal() ? 0 : i);
+            int col = c + (ship.isHorizontal() ? i : 0);
+
+            displayBoard[row][col] = '=';
+        }
+    }
+
     private Ship getShipAt(int row, int col) {
 
         for (Ship ship : ships) {
@@ -119,12 +135,10 @@ public class Board {
         return null;
     }
 
-    // -----------------------------
-    // VICTORY CHECK
-    // -----------------------------
     public boolean allShipsDestroyed() {
 
         for (Ship ship : ships) {
+
             if (!ship.isSunk()) {
                 return false;
             }
@@ -133,30 +147,31 @@ public class Board {
         return true;
     }
 
-    // -----------------------------
-    // DISPLAY
-    // -----------------------------
     public void printBoard(boolean hideShips) {
 
         System.out.print("  ");
 
         for (int j = 0; j < displayBoard[0].length; j++) {
-            System.out.print(j + " ");
+
+            System.out.print((j + 1) + " ");
         }
 
         System.out.println();
 
         for (int i = 0; i < displayBoard.length; i++) {
 
-            System.out.print(i + " ");
+            System.out.print((i + 1) + " ");
 
             for (int j = 0; j < displayBoard[i].length; j++) {
 
                 char value = displayBoard[i][j];
 
                 if (hideShips && value == '@') {
+
                     System.out.print("~ ");
+
                 } else {
+
                     System.out.print(value + " ");
                 }
             }
@@ -165,15 +180,14 @@ public class Board {
         }
     }
 
-    // -----------------------------
-    // UTIL
-    // -----------------------------
     private boolean isValid(int row, int col) {
+
         return row >= 0 && row < displayBoard.length &&
                col >= 0 && col < displayBoard[0].length;
     }
 
     public char getCell(int row, int col) {
+
         return displayBoard[row][col];
     }
 }
