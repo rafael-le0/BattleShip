@@ -93,7 +93,7 @@ public class Board {
 
             displayBoard[row][col] = 'O';
 
-            System.out.println("Erro!");
+            System.out.println("Falhou!");
 
             return false;
         }

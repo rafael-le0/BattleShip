@@ -11,9 +11,8 @@ public class Player {
         this.board = new Board();
     }
 
-    // -----------------------------
-    // GETTERS
-    // -----------------------------
+    
+    // Getters
     public String getName() {
 
         return name;
@@ -24,9 +23,7 @@ public class Player {
         return board;
     }
 
-    // -----------------------------
-    // SHIP PLACEMENT
-    // -----------------------------
+   //Ship placement
     public void placeShips(Scanner input) {
 
         System.out.println("\n" + name + " posicione os seus navios!");
@@ -54,7 +51,7 @@ public class Player {
 
                 while (true) {
 
-                    System.out.print("Fila: ");
+                    System.out.print("Linha: ");
 
                     if (input.hasNextInt()) {
 
@@ -65,18 +62,16 @@ public class Player {
                             break;
                         }
 
-                        System.out.println("Fila inválida. Use um valor de 1 à 7.");
+                        System.out.println("Linha inválida. Digite um valor de 1 a 7.");
 
                     } else {
 
-                        System.out.println("Fila inválida. Ponha um número.");
+                        System.out.println("Linha inválida. Digite um número.");
                         input.next();
                     }
                 }
 
-                // -----------------------------
-                // COLUMN VALIDATION
-                // -----------------------------
+                //Column validation
                 int col;
 
                 while (true) {
@@ -92,18 +87,16 @@ public class Player {
                             break;
                         }
 
-                        System.out.println("Coluna inválida. Use um valor de 1 à 9.");
+                        System.out.println("Coluna inválida. Digite um valor de 1 a 9.");
 
                     } else {
 
-                        System.out.println("Coluna inválida. Ponha um número.");
+                        System.out.println("Coluna inválida. Digite um número.");
                         input.next();
                     }
                 }
 
-                // -----------------------------
-                // HORIZONTAL VALIDATION
-                // -----------------------------
+                //Horizontal Validation
                 boolean horizontal;
 
                 while (true) {
@@ -123,7 +116,7 @@ public class Player {
 
                     } else {
 
-                        System.out.println("Entrada inválida. Digite 'true' ou 'false'.");
+                        System.out.println("Entrada inválida. Digite true ou false.");
                     }
                 }
 
@@ -136,33 +129,28 @@ public class Player {
 
                 } else {
 
-                    System.out.println("Opção inválida. Tente novamente.");
+                    System.out.println("Posição inválida. Tente novamente.");
                 }
             }
         }
     }
 
-    // -----------------------------
-    // ATTACK
-    // -----------------------------
+   //Attacking
     public boolean attack(Player enemy, Scanner input) {
 
-        System.out.println("\n" + "Vez de" + name);
+        System.out.println("\nTurno de " + name);
 
-        enemy.getBoard().printBoard(true);
-
-        int row;
-        int col;
-
-        // Keep asking until BOTH coordinates are valid
         while (true) {
 
-            // -----------------------------
-            // ROW VALIDATION
-            // -----------------------------
+            enemy.getBoard().printBoard(true);
+
+            int row;
+            int col;
+
+            //Row vallidations
             while (true) {
 
-                System.out.print("Atacar fila: ");
+                System.out.print("Linha do ataque: ");
 
                 if (input.hasNextInt()) {
 
@@ -172,21 +160,19 @@ public class Player {
                         break;
                     }
 
-                    System.out.println("Fila inválida. Use um valor de 1 à 7.");
+                    System.out.println("Linha inválida. Digite um valor de 1 a 7.");
 
                 } else {
 
-                    System.out.println("Fila inválida. Ponha um número.");
+                    System.out.println("Linha inválida. Digite um número.");
                     input.next();
                 }
             }
 
-            // -----------------------------
-            // COLUMN VALIDATION
-            // -----------------------------
+            //Column validation
             while (true) {
 
-                System.out.print("Atacar coluna: ");
+                System.out.print("Coluna do ataque: ");
 
                 if (input.hasNextInt()) {
 
@@ -196,28 +182,25 @@ public class Player {
                         break;
                     }
 
-                    System.out.println("Coluna inválida. Use um valor de 1 à 9.");
+                    System.out.println("Coluna inválida. Digite um valor de 1 a 9.");
 
                 } else {
 
-                    System.out.println("Coluna inválida. Ponha um número.");
+                    System.out.println("Coluna inválida. Digite um número.");
                     input.next();
                 }
             }
 
-            // Attempt attack
-            boolean result = enemy.getBoard().attack(row, col);
-
-            // If position was already attacked,
-            // ask again instead of losing turn
+            // Prevent attacking same cell
             char cell = enemy.getBoard().getCell(row, col);
 
             if (cell == '*' || cell == 'O' || cell == '=') {
 
-                return result;
+                System.out.println("Posição já atacada. Tente novamente.");
+                continue;
             }
 
-            return result;
+            return enemy.getBoard().attack(row, col);
         }
     }
 }

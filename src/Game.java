@@ -7,17 +7,14 @@ public class Game {
 
     private Scanner input = new Scanner(System.in);
 
-    // -----------------------------
-    // START GAME
-    // -----------------------------
+    
+    // Start game
     public void start() {
 
         showMainMenu();
     }
 
-    // -----------------------------
-    // MAIN MENU
-    // -----------------------------
+    // Main menu
     private void showMainMenu() {
 
         while (true) {
@@ -79,9 +76,8 @@ public class Game {
         }
     }
 
-    // -----------------------------
-    // GAME SETUP
-    // -----------------------------
+   
+    // Game setup
     private void setupGame() {
 
         System.out.println("\n=== PLAYER SETUP ===");
@@ -101,9 +97,8 @@ public class Game {
         player2.placeShips(input);
     }
 
-    // -----------------------------
-    // MAIN GAME LOOP
-    // -----------------------------
+    
+    // Main game loop
     private void gameLoop() {
 
         Player currentPlayer = player1;
@@ -112,7 +107,7 @@ public class Game {
         while (true) {
 
             System.out.println("\n========================");
-            System.out.println("Vez de"+currentPlayer.getName());
+            System.out.println("Vez de "+currentPlayer.getName());
             System.out.println("========================");
 
             boolean hit = currentPlayer.attack(enemyPlayer, input);

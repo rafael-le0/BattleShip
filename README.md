@@ -31,22 +31,6 @@ Muito obrigado pela visita ao nosso repositório.
 
 -----------------------------------------------------------------------------------------------------------------------------------------
 
-
-## Getting Started
-
-Welcome to the VS Code Java world. Here is a guideline to help you get started to write Java code in Visual Studio Code.
-
-## Folder Structure
-
-The workspace contains two folders by default, where:
-
-- `src`: the folder to maintain sources
-- `lib`: the folder to maintain dependencies
-
-Meanwhile, the compiled output files will be generated in the `bin` folder by default.
-
-> If you want to customize the folder structure, open `.vscode/settings.json` and update the related settings there.
-
-## Dependency Management
-
-The `JAVA PROJECTS` view allows you to manage your dependencies. More details can be found [here](https://github.com/microsoft/vscode-java-dependency#manage-dependencies).
+===============#NOTA#=====================================================================================================
+Para a devida impressão dos aracteres acentuados por favor use o comando "chcp 65001" dentro do directório 
+"...BattleShip\src>" no terminal antes de rodar o programa com o comando "Java App.java" no mesmo directório(O jogo funciona a 100% sem este comando).
