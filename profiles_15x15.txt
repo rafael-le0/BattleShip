@@ -1,0 +1,146 @@
+========================================
+BATTLESHIP PROFILES (15x15)
+===========================
+
+DEFAULT PROFILE 1
+NAME: Ataque Frontal
+
+5 1 1 true
+5 3 1 true
+4 5 1 true
+4 7 1 true
+3 9 1 true
+3 11 1 true
+3 13 1 true
+2 15 1 true
+2 15 5 true
+2 15 9 true
+
+END_PROFILE
+
+DEFAULT PROFILE 2
+NAME: Defesa Costeira
+
+5 1 15 false
+5 1 13 false
+4 1 11 false
+4 1 9 false
+3 1 7 false
+3 1 5 false
+3 1 3 false
+2 14 14 true
+2 15 1 true
+2 13 13 true
+
+END_PROFILE
+
+DEFAULT PROFILE 3
+NAME: Muralha
+
+5 2 2 true
+5 4 2 true
+4 6 2 true
+4 8 2 true
+3 10 2 true
+3 12 2 true
+3 14 2 true
+2 5 10 true
+2 8 10 true
+2 11 10 true
+
+END_PROFILE
+
+DEFAULT PROFILE 4
+NAME: Dispersao
+
+5 1 1 true
+5 15 1 true
+4 1 12 false
+4 8 5 true
+3 5 15 false
+3 12 8 true
+3 15 10 true
+2 3 6 false
+2 10 14 false
+2 14 4 true
+
+END_PROFILE
+
+DEFAULT PROFILE 5
+NAME: Aleatorio
+
+5 2 4 true
+5 6 10 false
+4 10 2 true
+4 12 7 false
+3 4 14 false
+3 8 5 true
+3 15 12 true
+2 1 9 false
+2 11 15 false
+2 14 1 true
+
+END_PROFILE
+
+CUSTOM PROFILE 1
+NAME: Custom1
+
+END_PROFILE
+
+CUSTOM PROFILE 2
+NAME: Custom2
+
+END_PROFILE
+
+CUSTOM PROFILE 3
+NAME: Custom3
+
+END_PROFILE
+
+CUSTOM PROFILE 4
+NAME: Custom4
+
+END_PROFILE
+
+CUSTOM PROFILE 5
+NAME: Custom5
+
+END_PROFILE
+
+========================================
+INSTRUÇÕES
+==========
+
+Cada navio é definido por:
+
+TAMANHO LINHA COLUNA HORIZONTAL
+
+Exemplo:
+
+5 1 1 true
+
+Significa:
+
+* Navio de tamanho 5
+* Começa na linha 1
+* Começa na coluna 1
+* Horizontal
+
+Tamanhos permitidos:
+
+5
+5
+4
+4
+3
+3
+3
+2
+2
+2
+
+Não altere os perfis DEFAULT.
+
+Os perfis CUSTOM podem ser editados pelos jogadores.
+
+END OF FILE

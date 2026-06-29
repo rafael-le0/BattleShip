@@ -1,0 +1,128 @@
+========================================
+BATTLESHIP PROFILES (10x10)
+===========================
+
+DEFAULT PROFILE 1
+NAME: Ataque Frontal
+
+5 1 1 true
+4 3 1 true
+4 5 1 true
+3 7 1 true
+3 9 1 true
+2 10 8 true
+2 8 8 true
+
+END_PROFILE
+
+DEFAULT PROFILE 2
+NAME: Defesa Costeira
+
+5 1 10 false
+4 1 8 false
+4 1 6 false
+3 1 4 false
+3 1 2 false
+2 9 9 true
+2 10 1 true
+
+END_PROFILE
+
+DEFAULT PROFILE 3
+NAME: Muralha
+
+5 2 2 true
+4 4 2 true
+4 6 2 true
+3 8 2 true
+3 8 6 true
+2 10 2 true
+2 10 5 true
+
+END_PROFILE
+
+DEFAULT PROFILE 4
+NAME: Dispersao
+
+5 1 1 true
+4 3 5 false
+4 7 1 true
+3 5 8 false
+3 10 4 true
+2 2 9 false
+2 9 10 false
+
+END_PROFILE
+
+DEFAULT PROFILE 5
+NAME: Aleatorio
+
+5 2 3 true
+4 5 6 false
+4 8 1 true
+3 1 8 false
+3 10 5 true
+2 6 10 false
+2 9 8 true
+
+END_PROFILE
+
+CUSTOM PROFILE 1
+NAME: Custom1
+
+END_PROFILE
+
+CUSTOM PROFILE 2
+NAME: Custom2
+
+END_PROFILE
+
+CUSTOM PROFILE 3
+NAME: Custom3
+
+END_PROFILE
+
+CUSTOM PROFILE 4
+NAME: Custom4
+
+END_PROFILE
+
+CUSTOM PROFILE 5
+NAME: Custom5
+
+END_PROFILE
+
+========================================
+INSTRUÇÕES
+==========
+
+Cada navio é definido por:
+
+TAMANHO LINHA COLUNA HORIZONTAL
+
+Exemplo:
+
+5 1 1 true
+
+Significa:
+
+* Navio de tamanho 5
+* Começa na linha 1
+* Começa na coluna 1
+* Horizontal
+
+Tamanhos permitidos:
+
+5
+4
+4
+3
+3
+2
+2
+
+Não altere os perfis DEFAULT.
+
+Os perfis CUSTOM podem ser editados pelos jogadores.
+
+END OF FILE
